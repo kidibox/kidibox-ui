@@ -23,7 +23,7 @@ export class HomeView extends React.Component {
   render () {
     return (
       <Row center='xs'>
-        <Col xs={8}>
+        <Col>
           <h1>Welcome to the React Redux Starter Kit</h1>
           <h2>
             Sample Counter:&nbsp;
@@ -37,6 +37,8 @@ export class HomeView extends React.Component {
           </Button>
           <hr />
           <Link to='/about'>Go To About View</Link>
+          <hr />
+          <Link to='/torrents'>Go To Torrent List View</Link>
         </Col>
       </Row>
     )

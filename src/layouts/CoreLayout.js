@@ -1,5 +1,4 @@
 import { App } from 'react-toolbox'
-import { Grid } from 'react-flexbox-grid'
 import '../styles/core.scss'
 
 // Note: Stateless/function components *will not* hot reload!
@@ -14,9 +13,7 @@ import '../styles/core.scss'
 function CoreLayout ({ children }) {
   return (
     <App>
-      <Grid fluid>
-        {children}
-      </Grid>
+      {children}
     </App>
   )
 }
