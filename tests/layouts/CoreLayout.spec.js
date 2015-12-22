@@ -1,7 +1,7 @@
 import React from 'react'
 import TestUtils from 'react-addons-test-utils'
 import CoreLayout from 'layouts/CoreLayout/CoreLayout'
-import { App } from 'react-toolbox'
+import { AppCanvas } from 'material-ui'
 
 function shallowRender (component) {
   const renderer = TestUtils.createRenderer()
@@ -28,7 +28,7 @@ describe('(Layout) Core', function () {
     _component = shallowRenderWithProps(_props)
   })
 
-  it("Should render as React-Toolbox's <App>.", function () {
-    expect(_component.type).to.equal(App)
+  it("Should render as Material UI's <AppCanvas>.", function () {
+    expect(_component.type).to.equal(AppCanvas)
   })
 })

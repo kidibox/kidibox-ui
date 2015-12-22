@@ -1,28 +1,50 @@
 import React, { PropTypes } from 'react'
-import { App } from 'react-toolbox'
-import { Grid } from 'react-flexbox-grid'
+import { connect } from 'react-redux'
+import {
+  AppBar,
+  AppCanvas,
+  FlatButton// ,
+} from 'material-ui'
+import { actions as authActions } from '../../redux/modules/auth'
+import AuthenticationModal from './AuthenticationModal'
+
 import '../../styles/core.scss'
-// Note: Stateless/function components *will not* hot reload!
-// react-transform *only* works on component classes.
-//
-// Since layouts rarely change, they are a good place to
-// leverage React's new Stateless Functions:
-// https://facebook.github.io/react/docs/reusable-components.html#stateless-functions
-//
-// CoreLayout is a pure function of its props, so we can
-// define it with a plain javascript function...
-function CoreLayout ({ children }) {
-  return (
-    <App>
-      <Grid fluid>
-        {children}
-      </Grid>
-    </App>
-  )
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated
+})
+
+export class CoreLayout extends React.Component {
+  static propTypes = {
+    children: PropTypes.element,
+    isAuthenticated: PropTypes.bool,
+    login: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
+  };
+
+  onSubmit () {
+    this.props.login('kid', 'C0mplexPwd')
+  }
+
+  render () {
+    const { isAuthenticated, login, logout } = this.props
+    return (
+      <AppCanvas>
+        <div>
+          <AppBar
+            title='kidiBox'
+            iconElementRight={
+              isAuthenticated
+                ? <FlatButton label='Logout' onTouchTap={logout} />
+                : <FlatButton label='Sign in' onTouchTap={login} />
+            }
+            showMenuIconButton={false} />
+        </div>
+        {this.props.children}
+        <AuthenticationModal />
+      </AppCanvas>
+    )
+  }
 }
 
-CoreLayout.propTypes = {
-  children: PropTypes.element
-}
-
-export default CoreLayout
+export default connect(mapStateToProps, authActions)(CoreLayout)
