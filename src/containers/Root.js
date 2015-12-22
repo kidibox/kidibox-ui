@@ -2,7 +2,11 @@ import React, { PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router'
 
-export default class Root extends React.Component {
+import ThemeDecorator from 'material-ui/lib/styles/theme-decorator'
+import ThemeManager from 'material-ui/lib/styles/theme-manager'
+import LightRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme'
+
+class Root extends React.Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     routes: PropTypes.element.isRequired,
@@ -43,3 +47,5 @@ export default class Root extends React.Component {
     )
   }
 }
+
+export default ThemeDecorator(ThemeManager.getMuiTheme(LightRawTheme))(Root)

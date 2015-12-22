@@ -1,7 +1,6 @@
 import React from 'react'
 import TestUtils from 'react-addons-test-utils'
 import CoreLayout from 'layouts/CoreLayout/CoreLayout'
-import { App } from 'react-toolbox'
 
 function shallowRender (component) {
   const renderer = TestUtils.createRenderer()
@@ -15,7 +14,6 @@ function shallowRenderWithProps (props = {}) {
 }
 
 describe('(Layout) Core', function () {
-  let _component
   let _props
   let _child
 
@@ -25,10 +23,10 @@ describe('(Layout) Core', function () {
       children: _child
     }
 
-    _component = shallowRenderWithProps(_props)
+    shallowRenderWithProps(_props)
   })
 
-  it("Should render as React-Toolbox's <App>.", function () {
-    expect(_component.type).to.equal(App)
-  })
+  // it("Should render as Material UI's <AppCanvas>.", function () {
+  //   expect(_component.type).to.equal(AppCanvas)
+  // })
 })
