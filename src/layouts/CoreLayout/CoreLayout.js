@@ -5,7 +5,7 @@ import ThemeDecorator from 'material-ui/lib/styles/theme-decorator'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
 import DarkRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme'
 
-// import '../../styles/core.scss'
+import '../../styles/core.scss'
 
 // Note: Stateless/function components *will not* hot reload!
 // react-transform *only* works on component classes.
@@ -36,7 +36,7 @@ function CoreLayout ({ children }) {
         modal
         actions={actions}
         contentStyle={{ width: '25%' }}
-        open>
+        open={false}>
         <Tabs>
           <Tab label='Signin'>
             <div>
