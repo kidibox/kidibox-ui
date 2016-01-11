@@ -5,38 +5,7 @@ import ThemeDecorator from 'material-ui/lib/styles/theme-decorator'
 import ThemeManager from 'material-ui/lib/styles/theme-manager'
 import DarkRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme'
 
-// import '../styles/core.scss'
-
-// class CoreLayout extends React.Component {
-//   static propTypes = {
-//     children: React.PropTypes.element
-//   };
-
-//   static childContextTypes = {
-//     muiTheme: React.PropTypes.object
-//   };
-
-//   constructor () {
-//     super()
-//     this.state = {
-//       muiTheme: ThemeManager.getMuiTheme(DarkRawTheme)
-//     }
-//   }
-
-//   getChildContext () {
-//     return {
-//       muiTheme: this.state.muiTheme
-//     }
-//   }
-
-//   render () {
-//     return (
-//       <div>
-//         {this.props.children}
-//       </div>
-//     )
-//   }
-// }
+// import '../../styles/core.scss'
 
 // Note: Stateless/function components *will not* hot reload!
 // react-transform *only* works on component classes.
