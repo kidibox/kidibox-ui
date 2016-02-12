@@ -18,7 +18,8 @@
     "dev:no-debug": "npm run dev -- --no_debug",
     "test": "better-npm-run test",
     "test:dev": "npm run test -- --watch",
-    "deploy": "better-npm-run deploy"
+    "deploy": "better-npm-run deploy",
+    "codecov": "cat coverage/*/lcov.info | codecov"
   },
   "betterScripts": {
     "dev": {
@@ -88,6 +89,7 @@
     "babel-runtime": "^6.3.19",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.1.0",
+    "codecov": "^1.0.1",
     "css-loader": "^0.23.0",
     "cssnano": "^3.3.2",
     "eslint": "^1.10.3",
