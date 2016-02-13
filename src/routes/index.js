@@ -9,7 +9,7 @@ import { Route, Redirect } from 'react-router'
 import CoreLayout from 'layouts/CoreLayout/CoreLayout'
 import NotFoundView from 'views/NotFoundView/NotFoundView'
 
-export default (
+export default (store) => (
   <Route path='/' component={CoreLayout}>
     <Route path='/404' component={NotFoundView} />
     <Redirect from='*' to='/404' />

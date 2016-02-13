@@ -9,17 +9,14 @@ cache:
 
 install:
   - npm install
-  - npm install -g codeclimate-test-reporter
 
 script:
-  - npm run lint
+  - npm run flow:check
   - npm run test
   - NODE_ENV=development npm run deploy
   - NODE_ENV=staging npm run deploy
   - NODE_ENV=production npm run deploy
 
-after_script:
-  - codeclimate-test-reporter < coverage/*/lcov.info
-
 after_success:
   - npm run codecov
+>>>>>>> upstream/master

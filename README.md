@@ -6,9 +6,6 @@ React Redux Starter Kit
 [![devDependency Status](https://david-dm.org/kidibox/kidibox-ui/dev-status.svg)](https://david-dm.org/kidibox/kidibox-ui#info=devDependencies)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-> ### This Project Recently Upgraded to Babel 6!
-> Woohoo! If you'd like to try it out, you're welcome to build directly from the master branch. However, if troubleshooting issues with Babel isn't quite your thing, just pull the [stable v0.18.0 release](https://github.com/davezuko/react-redux-starter-kit/tree/v0.18.0) and continue on your way with Babel 5.
-
 > ### Want Semicolons?
 > After installing npm dependencies, open `.eslintrc`, change the `semi` rule from `never` to `always`, and then run `npm run lint:fix` -- Easy as that! Alternatively, use the same npm script after installing and extending your preferred ESLint configuration; it's easy to customize the project's code style to suit your team's needs. See, we can coexist peacefully.
 
@@ -46,8 +43,8 @@ Features
   * redux-devtools
     * use `npm run dev:nw` to display them in a separate window.
   * redux-thunk middleware
-* [react-router](https://github.com/rackt/react-router) (`^2.0.0-rc5`)
-* [redux-simple-router](https://github.com/rackt/redux-simple-router) (`^1.0.0`)
+* [react-router](https://github.com/rackt/react-router) (`^2.0.0`)
+* [react-router-redux](https://github.com/rackt/react-router-redux) (`^3.0.0`)
 * [Webpack](https://github.com/webpack/webpack)
   * [CSS modules!](https://github.com/css-modules/css-modules)
   * sass-loader
@@ -60,6 +57,7 @@ Features
   * webpack-hot-middleware
 * [Karma](https://github.com/karma-runner/karma)
   * Mocha w/ chai, sinon-chai, and chai-as-promised
+  * [Airbnb's Enzyme](https://github.com/airbnb/enzyme) with [chai-enzyme](https://github.com/producthunt/chai-enzyme)
   * PhantomJS
   * Code coverage reports
 * [Babel](https://github.com/babel/babel) (`^6.3.0`)
@@ -69,7 +67,7 @@ Features
     * redbox-react (visible error reporting for React components)
 * [ESLint](http://eslint.org)
   * Uses [Standard Style](https://github.com/feross/standard) by default, but you're welcome to change this!
-  * Includes separate test-specific `.eslintrc` to work with Mocha and Chai
+  * Includes separate test-specific `.eslintrc` to support chai assertions
 
 Getting Started
 ---------------
@@ -92,14 +90,15 @@ Before delving into the descriptions of each available npm script, here's a brie
 * Compiling the application to disk? Use `npm run compile`.
 * Deploying to an environment? `npm run deploy` can help with that.
 
-**NOTE:** This package makes use of [debug](https://github.com/visionmedia/debug) to improve your debugging experience. For convenience, all of messages are prefixed with `app:*`. If you'd like to to change what debug statements are displayed, you can override the `DEBUG` environment variable to `app:*` via the CLI (e.g. `DEBUG=app:* npm start`) or update the `~/.env` file.
+**NOTE:** This package makes use of [debug](https://github.com/visionmedia/debug) to improve your debugging experience. For convenience, all of messages are prefixed with `app:*`. If you'd like to to change what debug statements are displayed, you can override the `DEBUG` environment variable via the CLI (e.g. `DEBUG=app:* npm start`) or tweak the npm scripts (`betterScripts` in `package.json`).
 
 Great, now that introductions have been made here's everything in full detail:
 
 * `npm start` - Spins up Koa server to serve your app at `localhost:3000`. HMR will be enabled in development.
 * `npm run compile` - Compiles the application to disk (`~/dist` by default).
-* `npm run dev:nw` - Same as `npm start`, but opens the redux devtools in a new window.
-* `npm run dev:no-debug` - Same as `npm start` but disables redux devtools.
+* `npm run dev` - Same as `npm start`, but enables nodemon to automatically restart the server when server-related code is changed.
+* `npm run dev:nw` - Same as `npm run dev`, but opens the redux devtools in a new window.
+* `npm run dev:no-debug` - Same as `npm run dev` but disables redux devtools.
 * `npm run test` - Runs unit tests with Karma and generates a coverage report.
 * `npm run test:dev` - Runs Karma and watches for changes to re-run tests; does not generate coverage reports.
 * `npm run deploy`- Runs linter, tests, and then, on success, compiles your application to disk.
@@ -119,7 +118,7 @@ Common configuration options:
 * `server_host` - hostname for the Koa server
 * `server_port` - port for the Koa server
 * `compiler_css_modules` - whether or not to enable CSS modules
-* `compiler_source_maps` - whether or not to generate source maps
+* `compiler_devtool` - what type of source-maps to generate (set to `false`/`null` to disable)
 * `compiler_vendor` - packages to separate into to the vendor bundle
 
 Structure
@@ -168,7 +167,7 @@ You can redefine which packages to bundle separately by modifying `compiler_vend
   'react',
   'react-redux',
   'react-router',
-  'redux-simple-router',
+  'react-router-redux',
   'redux'
 ]
 ```
@@ -252,10 +251,17 @@ This is most likely because the new window has been blocked by your popup blocke
 
 Reference: [issue 110](https://github.com/davezuko/react-redux-starter-kit/issues/110)
 
+### Babel Issues
+
+Running into issues with Babel? Babel 6 can be tricky, please either report an issue or try out the [stable v0.18.1 release](https://github.com/davezuko/react-redux-starter-kit/tree/v0.18.1) with Babel 5. If you do report an issue, please try to include relevant debugging information such as your node, npm, and babel versions.
+
+### Internationalization Support
+
+In keeping with the goals of this project, no internationalization support is provided out of the box. However, [juanda99](https://github.com/juanda99) has been kind enough to maintain a fork of this repo with internationalization support, [check it out!](https://github.com/juanda99/react-redux-starter-kit)
+
 ### High editor CPU usage after compilation
 
 While this is common to any sizable application, it's worth noting for those who may not know: if you happen to notice higher CPU usage in your editor after compiling the application, you may need to tell your editor not to process the dist folder. For example, in Sublime you can add:
-
 
 ```
 	"folder_exclude_patterns": [".svn",	".git",	".hg", "CVS",	"node_modules",	"dist"]

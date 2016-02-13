@@ -27,7 +27,7 @@ const APP_ENTRY_PATH = paths.base(config.dir_client) + '/main.js'
 
 webpackConfig.entry = {
   app: __DEV__
-    ? [APP_ENTRY_PATH, 'webpack-hot-middleware/client?path=/__webpack_hmr']
+    ? [APP_ENTRY_PATH, `webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`]
     : [APP_ENTRY_PATH],
   vendor: config.compiler_vendor
 }
@@ -46,8 +46,6 @@ webpackConfig.output = {
 // ------------------------------------
 webpackConfig.plugins = [
   new webpack.DefinePlugin(config.globals),
-  new webpack.optimize.OccurrenceOrderPlugin(),
-  new webpack.optimize.DedupePlugin(),
   new HtmlWebpackPlugin({
     template: paths.client('index.html'),
     hash: false,
@@ -67,8 +65,10 @@ if (__DEV__) {
     new webpack.NoErrorsPlugin()
   )
 } else if (__PROD__) {
-  debug('Apply UglifyJS plugin.')
+  debug('Enable plugins for production (OccurenceOrder, Dedupe & UglifyJS).')
   webpackConfig.plugins.push(
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         unused: true,
@@ -138,7 +138,7 @@ webpackConfig.module.loaders.push({
     'style',
     cssLoader,
     'postcss',
-    'sass'
+    'sass?sourceMap'
   ]
 })
 
@@ -160,7 +160,7 @@ webpackConfig.module.loaders.push({
     'style',
     'css?sourceMap',
     'postcss',
-    'sass'
+    'sass?sourceMap'
   ]
 })
 
@@ -181,16 +181,16 @@ webpackConfig.sassLoader = {
 
 webpackConfig.postcss = [
   cssnano({
-    sourcemap: true,
     autoprefixer: {
       add: true,
       remove: true,
       browsers: ['last 2 versions']
     },
-    safe: true,
     discardComments: {
       removeAll: true
-    }
+    },
+    safe: true,
+    sourcemap: true
   })
 ]
 
@@ -215,9 +215,9 @@ webpackConfig.module.loaders.push(
 // http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
 if (!__DEV__) {
   debug('Apply ExtractTextPlugin to CSS loaders.')
-  webpackConfig.module.loaders.filter(loader =>
-    loader.loaders && loader.loaders.find(name => /css/.test(name.split('?')[0]))
-  ).forEach(loader => {
+  webpackConfig.module.loaders.filter((loader) =>
+    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
+  ).forEach((loader) => {
     const [first, ...rest] = loader.loaders
     loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
     delete loader.loaders
