@@ -35,9 +35,9 @@ const config = {
   // ----------------------------------
   server_host     : process.env.HOST || 'localhost',
   server_port     : process.env.PORT || 3000,
-  server_ssl_key  : getFileContent(process.env.SSL_KEY || 'localhost.key'),
-  server_ssl_cert : getFileContent(process.env.SSL_CERT || 'localhost.crt'),
-  server_ssl_ca   : getFileContent(process.env.SSL_CA || null),
+  server_ssl_cert : getFileContent(process.env.SSL_CERTIFICATE || 'localhost.crt'),
+  server_ssl_ca   : getFileContent(process.env.SSL_CERTIFICATE_CA || null),
+  server_ssl_key  : getFileContent(process.env.SSL_CERTIFICATE_KEY || 'localhost.key'),
 
   // ----------------------------------
   // Compiler Configuration
