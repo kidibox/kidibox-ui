@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { CircularProgress } from 'material-ui/lib/circular-progress'
+import CircularProgress from 'material-ui/lib/circular-progress'
 import { Card, CardHeader } from 'material-ui/lib/card'
 import { List } from 'material-ui/lib/lists'
-import { Spacing } from 'material-ui/lib/styles/spacing'
+import Spacing from 'material-ui/lib/styles/spacing'
 import { actions as torrentActions } from '../../redux/modules/torrent'
 import TorrentFileItemView from './TorrentFileItemView'
 
