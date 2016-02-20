@@ -13,5 +13,10 @@ const options = {
   ca: config.server_ssl_ca
 }
 
-spdy.createServer(options, server.callback()).listen(port, host)
+if (config.env === 'production') {
+  spdy.createServer(options, server.callback()).listen(port, host)
+} else {
+  server.listen(port, host)
+}
+
 debug(`Server is now running at ${host}:${port}.`)
