@@ -1,9 +1,23 @@
 /* eslint key-spacing:0 spaced-comment:0 */
 import _debug from 'debug'
+import fs from 'fs'
 import path from 'path'
 import { argv } from 'yargs'
 
 const debug = _debug('app:config:_base')
+
+function getFileContent (path) {
+  if (!path) {
+    return null
+  }
+
+  try {
+    return fs.readFileSync(path)
+  } catch (ex) {
+    return null
+  }
+}
+
 const config = {
   env : process.env.NODE_ENV || 'development',
 
@@ -19,8 +33,11 @@ const config = {
   // ----------------------------------
   // Server Configuration
   // ----------------------------------
-  server_host : process.env.HOST || 'localhost',
-  server_port : process.env.PORT || 3000,
+  server_host     : process.env.HOST || 'localhost',
+  server_port     : process.env.PORT || 3000,
+  server_ssl_key  : getFileContent(process.env.SSL_KEY || 'localhost.key'),
+  server_ssl_cert : getFileContent(process.env.SSL_CERT || 'localhost.crt'),
+  server_ssl_ca   : getFileContent(process.env.SSL_CA || null),
 
   // ----------------------------------
   // Compiler Configuration
@@ -42,7 +59,8 @@ const config = {
     'react-redux',
     'react-router',
     'react-router-redux',
-    'redux'
+    'redux',
+    'material-ui'
   ],
 
   // ----------------------------------
