@@ -84,6 +84,7 @@
     "redux-thunk": "^1.0.0",
     "spdy": "^3.2.0",
     "url": "^0.11.0",
+    "validator": "^4.9.0",
     "yargs": "^3.18.0"
   },
   "devDependencies": {

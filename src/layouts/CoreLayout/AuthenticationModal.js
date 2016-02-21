@@ -1,13 +1,11 @@
 import React, { PropTypes } from 'react'
+import validator from 'validator'
 import { connect } from 'react-redux'
-import { actions, createFieldClass, controls } from 'react-redux-form'
-import {
-  Dialog,
-  FlatButton,
-  Tab,
-  Tabs,
-  TextField
-} from 'material-ui'
+import { actions, createFieldClass, controls, getField } from 'react-redux-form'
+import Dialog from 'material-ui/lib/dialog'
+import FlatButton from 'material-ui/lib/flat-button'
+import { Tab, Tabs } from 'material-ui/lib/tabs'
+import TextField from 'material-ui/lib/text-field'
 import Spacing from 'material-ui/lib/styles/spacing'
 import { post } from 'redux/utils/api'
 import { receiveToken } from 'redux/modules/auth'
@@ -15,6 +13,8 @@ import { receiveToken } from 'redux/modules/auth'
 const MaterialField = createFieldClass({
   'TextField': controls.text
 })
+
+const isRequired = (value) => !validator.isNull(value)
 
 function loginAction (data) {
   return (dispatch, getState) => {
@@ -70,10 +70,10 @@ export class AuthenticationModal extends React.Component {
                   marginTop: Spacing.desktopGutter
                 }}>Invalid username or password.</div>
               }
-              <MaterialField model='login.username'>
+              <MaterialField model='login.username' validators={{ required: isRequired }}>
                 <TextField
                   fullWidth
-                  errorText={''}
+                  errorText={getField(loginForm, 'username').errors.required ? 'This field is required' : ''}
                   hintText='Username'
                   floatingLabelText='Username'
                   type='text'
@@ -81,10 +81,10 @@ export class AuthenticationModal extends React.Component {
                     float: 'left'
                   }} />
               </MaterialField>
-              <MaterialField model='login.password'>
+              <MaterialField model='login.password' validators={{ required: isRequired }}>
                 <TextField
                   fullWidth
-                  errorText={''}
+                  errorText={getField(loginForm, 'password').errors.required ? 'This field is required' : ''}
                   hintText='Password'
                   floatingLabelText='Password'
                   type='password'
@@ -101,7 +101,6 @@ export class AuthenticationModal extends React.Component {
               </div>
             </form>
           </Tab>
-          <Tab label='Register' />
         </Tabs>
       </Dialog>
     )
