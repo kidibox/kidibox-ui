@@ -1,17 +1,13 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {
-  Checkbox,
-  IconButton,
-  IconMenu,
-  LinearProgress,
-  ListItem,
-  MenuItem,
-  Styles
-} from 'material-ui'
+import Checkbox from 'material-ui/lib/checkbox'
+import Colors from 'material-ui/lib/styles/colors'
+import IconButton from 'material-ui/lib/icon-button'
+import IconMenu from 'material-ui/lib/menus/icon-menu'
+import LinearProgress from 'material-ui/lib/linear-progress'
+import ListItem from 'material-ui/lib/lists/list-item'
+import MenuItem from 'material-ui/lib/menus/menu-item'
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert'
-
-const { Colors } = Styles
 
 const mapStateToProps = (state) => ({
   selectionMode: state.torrentList.selectionMode

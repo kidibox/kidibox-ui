@@ -1,21 +1,15 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {
-  DropDownMenu,
-  FontIcon,
-  MenuItem,
-  Paper,
-  RaisedButton,
-  Styles,
-  TextField,
-  Toolbar,
-  ToolbarGroup,
-  ToolbarSeparator,
-  ToolbarTitle
-} from 'material-ui'
+import DropDownMenu from 'material-ui/lib/drop-down-menu'
+import Colors from 'material-ui/lib/styles/colors'
+import FontIcon from 'material-ui/lib/font-icon'
+import MenuItem from 'material-ui/lib/menus/menu-item'
+import Paper from 'material-ui/lib/paper'
+import RaisedButton from 'material-ui/lib/raised-button'
+import Spacing from 'material-ui/lib/styles/spacing'
+import TextField from 'material-ui/lib/text-field'
+import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/lib/toolbar'
 import { actions as torrentListActions } from '../../redux/modules/torrentList'
-
-const { Colors, Spacing } = Styles
 
 const mapStateToProps = (state) => ({
   searchText: state.torrentList.searchText,

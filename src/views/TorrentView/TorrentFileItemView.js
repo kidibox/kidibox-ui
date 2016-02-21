@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {
-  FontIcon,
-  IconButton,
-  ListItem
-} from 'material-ui'
+import FontIcon from 'material-ui/lib/font-icon'
+import IconButton from 'material-ui/lib/icon-button'
+import ListItem from 'material-ui/lib/lists/list-item'
 import { actions as torrentActions } from '../../redux/modules/torrent'
 import { API_BASE } from '../../redux/utils/api'
 

@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react'
-import { CircularProgress, List, Styles } from 'material-ui'
+import CircularProgress from 'material-ui/lib/circular-progress'
+import List from 'material-ui/lib/lists/list'
+import Spacing from 'material-ui/lib/styles/spacing'
 import { connect } from 'react-redux'
 import TorrentListToolbar from './TorrentListToolbar'
 import TorrentListItemView from './TorrentListItemView'
 import { actions as torrentListActions } from '../../redux/modules/torrentList'
-
-const { Spacing } = Styles
 
 function sort (sortBy, sortReversed, left, right) {
   const leftValue = left[sortBy]
