@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { actions, createFieldClass, controls } from 'react-redux-form'
 import {
   Dialog,
   FlatButton,
@@ -7,72 +8,100 @@ import {
   Tabs,
   TextField
 } from 'material-ui'
-import { actions as authActions } from 'redux/modules/auth'
+import Spacing from 'material-ui/lib/styles/spacing'
+import { post } from 'redux/utils/api'
+import { receiveToken } from 'redux/modules/auth'
+
+const MaterialField = createFieldClass({
+  'TextField': controls.text
+})
+
+function loginAction (data) {
+  return (dispatch, getState) => {
+    dispatch(actions.asyncSetValidity('login', (_, done) => {
+      post('/authenticate', data)(dispatch, getState)
+        .then(({ token }) => {
+          done({ credentials: true })
+          dispatch(receiveToken(token))
+          dispatch(actions.setSubmitted('login'))
+          dispatch(actions.reset('login'))
+        })
+        .catch(() => {
+          console.log('foo')
+          done({ credentials: false })
+        })
+    }))
+  }
+}
 
 export class AuthenticationModal extends React.Component {
   static propTypes = {
     open: PropTypes.bool,
-    login: PropTypes.func.isRequired,
-    signup: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired
+    login: PropTypes.object.isRequired,
+    loginForm: PropTypes.object.isRequired,
+    loginAction: PropTypes.func.isRequired
   };
 
   constructor (props) {
     super(props)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  onSubmit () {
-    const username = this.refs.username.getValue()
-    const password = this.refs.password.getValue()
-    this.props.login(username, password)
+  handleSubmit (e) {
+    e.preventDefault()
+    const { login, loginAction } = this.props
+    loginAction(login)
   }
 
   render () {
-    const { errors } = this.props
+    const { loginForm } = this.props
     return (
       <Dialog
         modal
-        actions={<FlatButton label='Submit' primary onTouchTap={this.onSubmit} />}
         contentStyle={{ width: '25%' }}
         open={this.props.open || false}>
         <Tabs>
           <Tab label='Signin'>
-            <div>
-              <TextField
-                fullWidth
-                errorText={errors.username || ''}
-                hintText='Username'
-                floatingLabelText='Username'
-                ref='username'
-                errorStyle={{
-                  float: 'left'
-                }} />
-            </div>
-            <div>
-              <TextField
-                fullWidth
-                errorText={errors.password || ''}
-                hintText='Username'
-                floatingLabelText='Password'
-                type='password'
-                ref='password'
-                errorStyle={{
-                  float: 'left'
-                }} />
-            </div>
+            <form onSubmit={this.handleSubmit}>
+              {loginForm.errors.credentials &&
+                <div style={{
+                  color: 'red',
+                  textAlign: 'center',
+                  marginTop: Spacing.desktopGutter
+                }}>Invalid username or password.</div>
+              }
+              <MaterialField model='login.username'>
+                <TextField
+                  fullWidth
+                  errorText={''}
+                  hintText='Username'
+                  floatingLabelText='Username'
+                  type='text'
+                  errorStyle={{
+                    float: 'left'
+                  }} />
+              </MaterialField>
+              <MaterialField model='login.password'>
+                <TextField
+                  fullWidth
+                  errorText={''}
+                  hintText='Password'
+                  floatingLabelText='Password'
+                  type='password'
+                  errorStyle={{
+                    float: 'left'
+                  }} />
+              </MaterialField>
+              <div style={{textAlign: 'right', marginTop: Spacing.desktopGutter}}>
+                <FlatButton
+                  primary
+                  type='submit'
+                  label={loginForm.pending ? 'Submitting...' : 'Submit'}
+                  disabled={loginForm.pending} />
+              </div>
+            </form>
           </Tab>
-          <Tab label='Register'>
-            <div>
-              <TextField fullWidth hintText='Username' floatingLabelText='Username' />
-            </div>
-            <div>
-              <TextField fullWidth heintText='Email' floatingLabelText='Email' />
-            </div>
-            <div>
-              <TextField fullWidth hintText='Must be 8 characters min' floatingLabelText='Password' type='password' />
-            </div>
-          </Tab>
+          <Tab label='Register' />
         </Tabs>
       </Dialog>
     )
@@ -80,7 +109,9 @@ export class AuthenticationModal extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  login: state.login,
+  loginForm: state.loginForm,
   errors: state.auth.errors || {}
 })
 
-export default connect(mapStateToProps, authActions)(AuthenticationModal)
+export default connect(mapStateToProps, { loginAction })(AuthenticationModal)

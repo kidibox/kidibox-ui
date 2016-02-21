@@ -4,7 +4,7 @@ import { IndexLink } from 'react-router'
 import AppBar from 'material-ui/lib/app-bar'
 import AppCanvas from 'material-ui/lib/app-canvas'
 import FlatButton from 'material-ui/lib/flat-button'
-import { actions as authActions } from '../../redux/modules/auth'
+import { discardToken } from '../../redux/modules/auth'
 import AuthenticationModal from './AuthenticationModal'
 
 import '../../styles/core.scss'
@@ -17,26 +17,17 @@ export class CoreLayout extends React.Component {
   static propTypes = {
     children: PropTypes.element,
     isAuthenticated: PropTypes.bool,
-    login: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired
+    discardToken: PropTypes.func.isRequired
   };
 
-  onSubmit () {
-    this.props.login('kid', 'C0mplexPwd')
-  }
-
   render () {
-    const { isAuthenticated, login, logout } = this.props
+    const { isAuthenticated, discardToken } = this.props
     return (
       <AppCanvas>
         <div>
           <AppBar
             title={<IndexLink to='/' style={{color: 'white', textDecoration: 'none'}}>kidiBox</IndexLink>}
-            iconElementRight={
-              isAuthenticated
-                ? <FlatButton label='Logout' onTouchTap={logout} />
-                : <FlatButton label='Sign in' onTouchTap={login} />
-            }
+            iconElementRight={isAuthenticated ? <FlatButton label='Logout' onTouchTap={discardToken} /> : null}
             showMenuIconButton={false} />
         </div>
         {this.props.children}
@@ -46,4 +37,4 @@ export class CoreLayout extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, authActions)(CoreLayout)
+export default connect(mapStateToProps, { discardToken })(CoreLayout)

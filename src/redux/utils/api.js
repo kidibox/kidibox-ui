@@ -1,5 +1,5 @@
 import 'isomorphic-fetch'
-import { discardToken, requireLogin } from '../modules/auth'
+import { discardToken } from '../modules/auth'
 
 export const API_BASE = 'https://api.kidibox.net'
 
@@ -19,9 +19,8 @@ export const get = (path) => (dispatch, getState) => {
     .then((res) => res.json().then((json) => ({ res, json })))
     .then(({ res, json }) => {
       if (!res.ok) {
-        if (res.status === 401) {
+        if (token && res.status === 401) {
           dispatch(discardToken())
-          dispatch(requireLogin())
         }
 
         return Promise.reject(json)
@@ -47,9 +46,8 @@ export const post = (path, payload) => (dispatch, getState) => {
     .then((res) => res.json().then((json) => ({ res, json })))
     .then(({ res, json }) => {
       if (!res.ok) {
-        if (res.status === 401) {
+        if (token && res.status === 401) {
           dispatch(discardToken())
-          dispatch(requireLogin())
         }
 
         return Promise.reject(json)
