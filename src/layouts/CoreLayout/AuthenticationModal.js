@@ -1,3 +1,5 @@
+/* @flow */
+
 import React, { PropTypes } from 'react'
 import validator from 'validator'
 import { connect } from 'react-redux'
@@ -27,7 +29,6 @@ function loginAction (data) {
           dispatch(actions.reset('login'))
         })
         .catch(() => {
-          console.log('foo')
           done({ credentials: false })
         })
     }))
