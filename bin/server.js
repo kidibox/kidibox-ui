@@ -15,8 +15,8 @@ const options = {
 
 if (config.env === 'production') {
   spdy.createServer(options, server.callback()).listen(port, host)
+  debug(`Server is now running at https://${host}:${port}.`)
 } else {
   server.listen(port, host)
+  debug(`Server is now running at http://${host}:${port}.`)
 }
-
-debug(`Server is now running at ${host}:${port}.`)
