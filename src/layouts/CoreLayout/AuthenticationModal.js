@@ -1,5 +1,3 @@
-/* @flow */
-
 import React, { PropTypes } from 'react'
 import validator from 'validator'
 import { connect } from 'react-redux'
