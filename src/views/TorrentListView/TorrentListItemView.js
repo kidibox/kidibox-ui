@@ -45,10 +45,10 @@ class TorrentListItemView extends React.Component {
 
     let color
     switch (status) {
-      case 0: color = Colors.grey500; break
+      case 0: color = Colors.grey700; break
       case 4: color = Colors.cyan500; break
       case 6: color = Colors.lightGreen500; break
-      default: color = Colors.grey700
+      default: color = Colors.grey100
     }
 
     const rightIconMenu = !selectionMode ? (
