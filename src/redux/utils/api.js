@@ -18,7 +18,7 @@ const request = (path: string, payload = {}, method = 'GET'): Function => (dispa
     options.method = method
   }
 
-  if (method && payload) {
+  if (method !== 'GET' && payload) {
     options.body = JSON.stringify(payload)
   }
 
