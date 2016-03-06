@@ -33,9 +33,8 @@ export const getDownloadToken = (torrentId: number, fileIndex: number): Function
   return get('/torrents/' + torrentId + '/files/' + fileIndex + '/token')
 }
 
-export const addNewMagnet = (payload: Object): Function => {
-  return post('/torrents/link', payload)
-}
+export const addNewMagnet = (payload: Object): Function => post('/torrents/link', payload)
+export const addNewTorrent = (payload: FormData): Function => post('/torrents/file', payload)
 
 export const actions = {
   invalidateTorrent,

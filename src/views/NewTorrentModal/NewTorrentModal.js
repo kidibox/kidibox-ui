@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Dialog from 'material-ui/lib/dialog'
 import { Tab, Tabs } from 'material-ui/lib/tabs'
 import NewMagnetForm from './NewMagnetForm'
+import NewTorrentForm from './NewTorrentForm'
 import { hideNewTorrentModal } from 'redux/modules/modals'
 import { fetchTorrents } from 'redux/modules/torrentList'
 
@@ -38,6 +39,9 @@ export class NewTorrentModal extends Component {
         <Tabs>
           <Tab label='Magnet'>
             <NewMagnetForm handleSubmit={this.cancel} handleCancel={this.submit} />
+          </Tab>
+          <Tab label='File'>
+            <NewTorrentForm handleSubmit={this.cancel} handleCancel={this.submit} />
           </Tab>
         </Tabs>
       </Dialog>

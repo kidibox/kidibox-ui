@@ -20,21 +20,31 @@ export class NewMagnetForm extends Component {
     newMagnetForm: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     handleCancel: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired
   }
 
   constructor (props) {
     super(props)
+    this.cancel = this.cancel.bind(this)
     this.submit = this.submit.bind(this)
   }
 
+  cancel () {
+    this.props.reset('newMagnet')
+    this.props.handleCancel()
+  }
+
   submit () {
-    const { addNewMagnet, handleSubmit, newMagnet, submit } = this.props
-    submit('newMagnet', addNewMagnet(newMagnet).then(handleSubmit))
+    const { addNewMagnet, handleSubmit, newMagnet, reset, submit } = this.props
+    submit('newMagnet', addNewMagnet(newMagnet).then(() => {
+      reset('newMagnet')
+      handleSubmit()
+    }))
   }
 
   render () {
-    const { newMagnetForm, handleCancel } = this.props
+    const { newMagnetForm } = this.props
     return (
       <Form
         autoComplete='off'
@@ -56,7 +66,7 @@ export class NewMagnetForm extends Component {
           <TextField
             name='link'
             fullWidth
-            errorText={newMagnetForm.fields.link.valid ? '' : 'This field is required'}
+            errorText={!newMagnetForm.fields.link || newMagnetForm.fields.link.valid ? '' : 'This field is required'}
             hintText='Magnet link'
             floatingLabelText='Magnet link'
             type='text'
@@ -71,7 +81,7 @@ export class NewMagnetForm extends Component {
             label={newMagnetForm.pending ? 'Adding...' : 'Add'}
             disabled={newMagnetForm.pending} />
           <FlatButton
-            onClick={handleCancel}
+            onClick={this.cancel}
             type='button'
             label='Cancel' />
         </div>
