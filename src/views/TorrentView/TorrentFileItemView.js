@@ -17,7 +17,7 @@ export class TorrentFileItemView extends React.Component {
   constructor (props) {
     super(props)
     this.copyLink = this.copyLink.bind(this)
-    this.download = this.download.bind(this)
+    this.downloadFile = this.downloadFile.bind(this)
   }
 
   copyLink () {
@@ -27,7 +27,7 @@ export class TorrentFileItemView extends React.Component {
     })
   }
 
-  download () {
+  downloadFile () {
     const { torrentId, fileIndex, getDownloadToken } = this.props
     getDownloadToken(torrentId, fileIndex).then(({ token }) => {
       window.location.href = API_BASE + '/download/' + token
