@@ -1,9 +1,9 @@
 declare module 'isomorphic-fetch' {}
 
-type FetchOptions = {
+export type FetchOptions = {
   headers?: Object,
   method?: string,
-  body?: string
+  body?: string|FormData
 };
 
 declare function fetch(path: string, options?: FetchOptions): Promise;
