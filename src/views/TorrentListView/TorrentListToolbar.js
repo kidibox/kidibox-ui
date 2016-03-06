@@ -9,7 +9,8 @@ import RaisedButton from 'material-ui/lib/raised-button'
 import Spacing from 'material-ui/lib/styles/spacing'
 import TextField from 'material-ui/lib/text-field'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/lib/toolbar'
-import { actions as torrentListActions } from '../../redux/modules/torrentList'
+import { actions as torrentListActions } from 'redux/modules/torrentList'
+import { showNewTorrentModal } from 'redux/modules/modals'
 
 const mapStateToProps = (state) => ({
   searchText: state.torrentList.searchText,
@@ -26,7 +27,8 @@ class TorrentListToolbar extends React.Component {
     sortReversed: PropTypes.bool,
     setStatusFilter: PropTypes.func.isRequired,
     toggleSelectionMode: PropTypes.func.isRequired,
-    toggleSortReversed: PropTypes.func.isRequired
+    toggleSortReversed: PropTypes.func.isRequired,
+    showNewTorrentModal: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -95,7 +97,11 @@ class TorrentListToolbar extends React.Component {
             <ToolbarSeparator style={{
               marginLeft: Spacing.desktopGutter
             }} />
-            <RaisedButton primary label='New torrent' style={{ marginRight: 0 }} />
+            <RaisedButton
+              onClick={this.props.showNewTorrentModal}
+              primary
+              label='New torrent'
+              style={{ marginRight: 0 }} />
           </ToolbarGroup>
         </Toolbar>
       </Paper>
@@ -103,4 +109,4 @@ class TorrentListToolbar extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, torrentListActions)(TorrentListToolbar)
+export default connect(mapStateToProps, { ...torrentListActions, showNewTorrentModal })(TorrentListToolbar)

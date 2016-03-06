@@ -1,6 +1,6 @@
 /* @flow */
 
-import { get } from '../utils/api'
+import { get, post } from '../utils/api'
 
 // ------------------------------------
 // Constants
@@ -31,6 +31,10 @@ export const fetchTorrent = (torrentId: number): Function => {
 
 export const getDownloadToken = (torrentId: number, fileIndex: number): Function => {
   return get('/torrents/' + torrentId + '/files/' + fileIndex + '/token')
+}
+
+export const addNewMagnet = (payload: Object): Function => {
+  return post('/torrents/link', payload)
 }
 
 export const actions = {
