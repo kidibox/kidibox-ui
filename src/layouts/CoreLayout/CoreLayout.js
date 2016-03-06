@@ -6,6 +6,7 @@ import AppCanvas from 'material-ui/lib/app-canvas'
 import FlatButton from 'material-ui/lib/flat-button'
 import { discardToken } from '../../redux/modules/auth'
 import AuthenticationModal from './AuthenticationModal'
+import NewTorrentModal from 'views/NewTorrentModal/NewTorrentModal'
 
 import '../../styles/core.scss'
 
@@ -32,6 +33,7 @@ export class CoreLayout extends React.Component {
         </div>
         {this.props.children}
         <AuthenticationModal />
+        <NewTorrentModal />
       </AppCanvas>
     )
   }

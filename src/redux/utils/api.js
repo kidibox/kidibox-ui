@@ -9,8 +9,7 @@ const request = (path: string, payload = {}, method = 'GET'): Function => (dispa
   const { auth: { token } } = getState()
   const options: FetchOptions = {
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Accept': 'application/json'
     }
   }
 
@@ -19,7 +18,15 @@ const request = (path: string, payload = {}, method = 'GET'): Function => (dispa
   }
 
   if (method !== 'GET' && payload) {
-    options.body = JSON.stringify(payload)
+    if (payload instanceof FormData) {
+      options.body = payload
+    } else {
+      options.body = JSON.stringify(payload)
+      options.headers = {
+        ...options.headers,
+        'Content-Type': 'application/json'
+      }
+    }
   }
 
   if (token) {
