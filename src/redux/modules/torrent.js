@@ -16,9 +16,9 @@ export const RECEIVE_TORRENT = 'torrent/RECEIVE_TORRENT'
 
 export const invalidateTorrent = (): Action => ({ type: INVALIDATE_TORRENT })
 export const requestTorrent = (): Action => ({ type: REQUEST_TORRENT })
-export const receiveTorrent = (payload: Object, error: Object|boolean = false): Action => ({
-  type: RECEIVE_TORRENT, payload, error
-})
+export function receiveTorrent (payload: Object, error: Object|boolean = false): Action {
+  return { type: RECEIVE_TORRENT, payload, error }
+}
 
 export const fetchTorrent = (torrentId: number): Function => {
   return (dispatch, getState) => {

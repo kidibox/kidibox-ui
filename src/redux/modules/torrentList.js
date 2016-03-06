@@ -17,9 +17,9 @@ export const TOGGLE_SORT_REVERSED = 'TORRENT_LIST_TOGGLE_SORT_REVERSED'
 // ------------------------------------
 
 export const requestTorrents = (): Action => ({ type: REQUEST_TORRENTS })
-export const receiveTorrents = (payload: Object, error: Object|boolean = false): Action => ({
-  type: RECEIVE_TORRENTS, payload, error
-})
+export function receiveTorrents (payload: Object, error: Object|boolean = false): Action {
+  return { type: RECEIVE_TORRENTS, payload, error }
+}
 export const setStatusFilter = (payload: Number): Action => ({ type: SET_STATUS_FILTER, payload })
 export const toggleSelectionMode = (payload: Number): Action => ({ type: TOGGLE_SELECTION_MODE, payload })
 export const toggleSortReversed = (): Action => ({ type: TOGGLE_SORT_REVERSED })
