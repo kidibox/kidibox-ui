@@ -55,3 +55,4 @@ function request (method = 'GET', path: string, payload?: FormData|Object): Func
 
 export const get = (path: string): Function => request('GET', path)
 export const post = (path: string, payload: FormData|Object): Function => request('POST', path, payload)
+export const del = (path: string): Function => request('DELETE', path)
