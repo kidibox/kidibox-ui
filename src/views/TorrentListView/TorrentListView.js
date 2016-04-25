@@ -41,19 +41,33 @@ export class TorrentListView extends React.Component {
     history: React.PropTypes.object,
     isLoading: React.PropTypes.bool,
     torrents: PropTypes.array,
-    fetchTorrents: PropTypes.func.isRequired
+    fetchTorrents: PropTypes.func.isRequired,
+    removeTorrent: PropTypes.func.isRequired
   };
+
+  constructor (props) {
+    super(props)
+    this.onDelete = this.onDelete.bind(this)
+  }
 
   componentDidMount () {
     const { fetchTorrents } = this.props
     fetchTorrents()
   }
 
+  onDelete (torrentId) {
+    const { removeTorrent } = this.props
+    removeTorrent(torrentId)
+  }
+
   render () {
     const torrentList = (
       <List style={{ margin: Spacing.desktopGutter }}>
         {this.props.torrents.map((torrent) =>
-          <TorrentListItemView key={torrent.id} history={this.props.history} {...torrent} />
+          <TorrentListItemView
+            key={torrent.id} history={this.props.history}
+            onDelete={this.onDelete}
+            {...torrent} />
         )}
       </List>
     )

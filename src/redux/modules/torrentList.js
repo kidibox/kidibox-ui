@@ -1,6 +1,6 @@
 /* @flow */
 
-import { get } from '../utils/api'
+import { get, del } from '../utils/api'
 
 // ------------------------------------
 // Constants
@@ -11,6 +11,7 @@ export const RECEIVE_TORRENTS = 'torrentList/RECEIVE_TORRENTS'
 export const SET_STATUS_FILTER = 'TORRENT_LIST_SET_STATUS_FILTER'
 export const TOGGLE_SELECTION_MODE = 'TORRENT_LIST_TOGGLE_SELECTION_MODE'
 export const TOGGLE_SORT_REVERSED = 'TORRENT_LIST_TOGGLE_SORT_REVERSED'
+export const REMOVE_TORRENT = 'torrentList/REMOVE_TORRENT'
 
 // ------------------------------------
 // Actions
@@ -33,11 +34,19 @@ export const fetchTorrents = (): Function => {
   }
 }
 
+export const removeTorrent = (torrentId: number): Function => {
+  return (dispatch, getState) => {
+    del('/torrents/' + torrentId)(dispatch, getState)
+      .then(() => dispatch({type: REMOVE_TORRENT, torrentId}))
+  }
+}
+
 export const actions = {
   fetchTorrents,
   setStatusFilter,
   toggleSelectionMode,
-  toggleSortReversed
+  toggleSortReversed,
+  removeTorrent
 }
 
 // ------------------------------------
@@ -55,7 +64,10 @@ const ACTION_HANDLERS = {
   },
   [SET_STATUS_FILTER]: (state: Object, { payload }) => ({ ...state, statusFilter: payload }),
   [TOGGLE_SELECTION_MODE]: (state: Object) => ({ ...state, selectionMode: !state.selectionMode }),
-  [TOGGLE_SORT_REVERSED]: (state: Object) => ({ ...state, sortReversed: !state.sortReversed })
+  [TOGGLE_SORT_REVERSED]: (state: Object) => ({ ...state, sortReversed: !state.sortReversed }),
+  [REMOVE_TORRENT]: (state: Object, { torrentId }) => {
+    return { ...state, items: state.items.filter((item) => item.id !== torrentId) }
+  }
 }
 
 // ------------------------------------

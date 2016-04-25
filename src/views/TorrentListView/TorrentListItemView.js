@@ -21,16 +21,22 @@ class TorrentListItemView extends React.Component {
     percentDone: PropTypes.number.isRequired,
     selectionMode: PropTypes.bool,
     history: React.PropTypes.object,
-    status: React.PropTypes.number
+    status: React.PropTypes.number,
+    onDelete: PropTypes.func.isRequired
   };
 
   constructor (props) {
     super(props)
     this.onClick = this.onClick.bind(this)
+    this.onDelete = this.onDelete.bind(this)
   }
 
   onClick () {
     this.props.history.pushState(null, '/torrents/' + this.props.id)
+  }
+
+  onDelete () {
+    this.props.onDelete(this.props.id)
   }
 
   render () {
@@ -55,7 +61,7 @@ class TorrentListItemView extends React.Component {
       <IconMenu iconButtonElement={iconButtonElement}>
         <MenuItem index={0} primaryText='Pause' />
         <MenuItem index={1} primaryText='Stop' />
-        <MenuItem index={2} primaryText='Delete' />
+        <MenuItem index={2} primaryText='Delete' onTouchTap={this.onDelete} />
       </IconMenu>
     ) : null
 
