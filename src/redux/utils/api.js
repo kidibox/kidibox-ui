@@ -5,6 +5,12 @@ import { discardToken } from '../modules/auth'
 
 export const API_BASE = 'https://api.kidibox.net'
 
+function containsJson (response) {
+  return response.status !== 204 &&
+    response.headers.has('Content-Type') &&
+    response.headers.get('Content-Type').toLowerCase().startsWith('application/json')
+}
+
 function request (method = 'GET', path: string, payload?: FormData|Object): Function {
   return (dispatch, getState): Promise => {
     const { auth: { token } } = getState()
@@ -37,19 +43,23 @@ function request (method = 'GET', path: string, payload?: FormData|Object): Func
       }
     }
 
-    return fetch(API_BASE + path, options)
-      .then((res) => res.json().then((json) => ({ res, json })))
-      .then(({ res, json }) => {
-        if (!res.ok) {
-          if (token && res.status === 401) {
-            dispatch(discardToken())
-          }
-
-          return Promise.reject(json)
+    return fetch(API_BASE + path, options).then((response) => {
+      if (response.ok) {
+        return containsJson(response) ? response.json() : response
+      } else {
+        if (token && response.status === 401) {
+          dispatch(discardToken())
         }
 
-        return json
-      })
+        if (containsJson(response)) {
+          return response.json().then((json) => Promise.reject(json))
+        }
+
+        var error = new Error(response.statusText)
+        error.response = response
+        throw error
+      }
+    })
   }
 }
 
