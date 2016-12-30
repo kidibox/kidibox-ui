@@ -29,8 +29,8 @@ export const fetchTorrent = (torrentId: number): Function => {
   }
 }
 
-export const getDownloadToken = (torrentId: number, fileIndex: number): Function => {
-  return get('/torrents/' + torrentId + '/files/' + fileIndex + '/token')
+export const getDownloadToken = (torrentId: number, path: string): Function => {
+  return get(`/torrents/${torrentId}/token?path=${encodeURIComponent(path)}`)
 }
 
 export const addNewMagnet = (payload: Object): Function => post('/torrents/link', payload)

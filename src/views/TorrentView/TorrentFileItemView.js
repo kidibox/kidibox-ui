@@ -9,8 +9,9 @@ import { API_BASE } from '../../redux/utils/api'
 export class TorrentFileItemView extends React.Component {
   static propTypes = {
     torrentId: PropTypes.number.isRequired,
-    fileIndex: PropTypes.number.isRequired,
-    fileName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    path: PropTypes.array.isRequired,
+    children: PropTypes.array,
     getDownloadToken: PropTypes.func.isRequired
   };
 
@@ -21,26 +22,30 @@ export class TorrentFileItemView extends React.Component {
   }
 
   copyLink () {
-    const { torrentId, fileIndex, getDownloadToken } = this.props
-    getDownloadToken(torrentId, fileIndex).then(({ token }) => {
+    const { torrentId, path, getDownloadToken } = this.props
+    getDownloadToken(torrentId, path.join('/')).then(({ token }) => {
       window.prompt('Copy to clipboard: Ctrl+C, Enter', API_BASE + '/download/' + token)
     })
   }
 
   downloadFile () {
-    const { torrentId, fileIndex, getDownloadToken } = this.props
-    getDownloadToken(torrentId, fileIndex).then(({ token }) => {
+    const { torrentId, path, getDownloadToken } = this.props
+    getDownloadToken(torrentId, path.join('/')).then(({ token }) => {
       window.location.href = API_BASE + '/download/' + token
     })
   }
 
   render () {
-    const { fileName } = this.props
+    const { torrentId, name, children, path, getDownloadToken } = this.props
 
     return (
       <ListItem
-        primaryText={fileName}
-        leftIcon={<FontIcon className='material-icons'>insert_drive_file</FontIcon>}
+        disabled={!children}
+        initiallyOpen
+        insetChildren
+        primaryText={name}
+        nestedLevel={path.length - 1}
+        leftIcon={<FontIcon className='material-icons'>{children ? 'folder' : 'insert_drive_file'}</FontIcon>}
         rightIconButton={
           <div>
             <IconButton
@@ -58,7 +63,10 @@ export class TorrentFileItemView extends React.Component {
               file_download
             </IconButton>
           </div>
-        } />
+        }
+        nestedItems={(children || []).map((file, index) =>
+          <TorrentFileItemView key={index} torrentId={torrentId} {...file} getDownloadToken={getDownloadToken} />
+        )} />
     )
   }
 }
